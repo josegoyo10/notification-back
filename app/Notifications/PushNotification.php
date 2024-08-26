@@ -8,6 +8,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use App\Models\Message;
 use App\Models\User;
+use Illuminate\Support\Facades\Log;
 
 class PushNotification extends Notification
 {
@@ -28,7 +29,7 @@ class PushNotification extends Notification
     public function send()
     {
         // Simulate sending Push Notification
-        // Log::info("Push Notification sent to {$this->user->name}: {$this->message->body}");
+         Log::info("Push Notification sent to {$this->user->name}: {$this->message->body}");
     }
 
     /**

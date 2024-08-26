@@ -8,6 +8,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use App\Models\Message;
 use App\Models\User;
+use Illuminate\Support\Facades\Log;
 
 class SMSNotification extends Notification
 {
@@ -26,7 +27,7 @@ class SMSNotification extends Notification
      public function send()
     {
         // Simulate sending SMS
-        // Log::info("SMS sent to {$this->user->phone_number}: {$this->message->body}");
+         Log::info("SMS sent to {$this->user->phone_number}: {$this->message->body}");
     }
 
     /**

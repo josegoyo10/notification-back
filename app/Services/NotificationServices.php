@@ -1,28 +1,53 @@
 <?php
 
 namespace App\Services;
+
 use App\Models\User;
 use App\Models\Notification;
 use App\Notifications\EmailNotification;
 use App\Notifications\PushNotification;
 use App\Notifications\SMSNotification;
+use Illuminate\Http\Request;
+use Exception;
+use Illuminate\Support\Facades\DB;
+use App\Http\Resources\UserResource;
+use Illuminate\Support\Facades\Log;
 
-class NotificationService {
+use function PHPSTORM_META\type;
 
-    public function sendNotifications($message) {
+class NotificationServices
+{
+
+    public function sendNotifications($message)
+    {
         // 
-        $users = User::whereJsonContains('subscribed_categories', $message->category_id)->get();
 
-        foreach ($users as $user) {
-            foreach ($user->notification_channels as $channel) {
-                $this->sendNotification($user, $message, $channel);
+        try {
+
+            $users = User::whereJsonContains('subscribed_categories', $message->category_id)->get();
+
+            foreach ($users as $user) {
+
+                $getChannel = array_map(null, explode(',', $user->notification_channels));
+
+                foreach ($getChannel as $channel) {
+                    $_channel = preg_replace('/[^A-Za-z0-9. -]/', '', $channel);
+                    $this->sendNotification($user, $message, $_channel);
+                }
             }
+        } catch (Exception $exception) {
+            Log::error('An error occurred while sending notifications: ' . $exception->getMessage());
+            Log::info($exception->getMessage());
+            throw new Exception($exception->getMessage(), 422);
         }
     }
 
     protected function sendNotification($user, $message, $channel)
     {
-        switch ($channel) {
+     try {
+        $opc_channel = str_replace(' ', '', $channel);
+
+        switch ($opc_channel) {
             case 'sms':
                 $notification = new SMSNotification($user, $message);
                 break;
@@ -44,9 +69,10 @@ class NotificationService {
             'channel' => $channel,
             'sent_at' => now(),
         ]);
+     } catch (Exception $exception) {
+            Log::error('An error occurred while creating notifications: ' . $exception->getMessage());
+            Log::info($exception->getMessage());
+            throw new Exception($exception->getMessage(), 422);
+        }
     }
-    
 }
-
-
-?>

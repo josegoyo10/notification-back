@@ -8,6 +8,7 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use App\Models\Message;
 use App\Models\User;
+use Illuminate\Support\Facades\Log;
 
 class EmailNotification extends Notification
 {
@@ -28,7 +29,7 @@ class EmailNotification extends Notification
     public function send()
     {
         // Simulate sending Email
-         //Log::info("Email sent to {$this->user->email}: {$this->message->body}");
+        Log::info("Email sent to {$this->user->email}: {$this->message->body}");
     }
     /**
      * Get the notification's delivery channels.
