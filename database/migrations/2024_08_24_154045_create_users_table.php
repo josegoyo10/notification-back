@@ -16,8 +16,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('phone_number')->nullable();
-            $table->json('subscribed_categories'); // Store categories as JSON
-            $table->json('notification_channels'); // Store channels as JSON
+            $table->json('subscribed_categories');
+            $table->json('notification_channels');
             $table->timestamps();
         });
     }

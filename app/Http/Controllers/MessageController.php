@@ -40,9 +40,23 @@ class MessageController extends Controller
         }
     }
 
-    public function getLogHistory()
+    public function getListNotification()
     {
-        $logs = Notification::with('user', 'message')->latest()->get();
-        return response()->json($logs);
+        try {
+            $logs = Notification::join('users', 'users.id', '=', 'notifications.user_id')
+            ->join('messages', 'messages.id', '=', 'notifications.message_id')
+            ->join('categories', 'categories.id', '=', 'messages.category_id')
+            ->select(
+                'notifications.id',
+                'users.name',
+                'categories.name as category',
+                'messages.body',
+                'notifications.channel',
+                'notifications.sent_at'
+            )->get();
+            return response()->json(['status' => "Ok", 'data' => $logs]);
+        } catch (Exception $exception) {
+            return response()->json(['status' => false, 'message' => $exception->getMessage()], 422);
+        }
     }
 }

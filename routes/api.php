@@ -21,3 +21,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::resource('categories', CategoriesController::class);
 Route::post('/submit-message', [MessageController::class, 'submitMessage']);
+Route::get('/list-notification', [MessageController::class, 'getListNotification']);

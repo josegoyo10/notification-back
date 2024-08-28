@@ -15,4 +15,14 @@ class Notification extends Model
         'channel',
         'sent_at'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function message()
+    {
+        return $this->belongsTo(Message::class);
+    }
 }

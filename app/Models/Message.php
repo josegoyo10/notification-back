@@ -12,6 +12,16 @@ class Message extends Model
     protected $fillable = [
         'category_id',
         'body',
-       
+
     ];
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class);
+    }
 }

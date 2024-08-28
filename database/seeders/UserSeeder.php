@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\User;
+use Database\Factories\UserFactory;
 
 class UserSeeder extends Seeder
 {
@@ -13,12 +14,9 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-         User::create([
-            'name' => 'John Doe',
-            'email' => 'john@example.com',
-            'phone_number' => '1234567890',
-            'subscribed_categories' => json_encode([1, 2]),
-            'notification_channels' => json_encode(['email', 'sms']),
-        ]);
+       User::factory()->count(4)->create();
+
+      
+
     }
 }
